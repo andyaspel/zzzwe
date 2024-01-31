@@ -1,0 +1,74 @@
+"use strict";
+
+const DEFAULT_RESOLUTION = {w: 3840, h: 2160};
+const TRIANGLE_PAIR = 2;
+const TRIANGLE_VERTICIES = 3;
+const QUAD_VERTICIES = 4;
+const VEC2_COUNT = 2;
+const VEC2_X = 0;
+const VEC2_Y = 1;
+const RGBA_COUNT = 4;
+const RGBA_R = 0;
+const RGBA_G = 1;
+const RGBA_B = 2;
+const RGBA_A = 3;
+const TRAIL_COOLDOWN = 1 / 60;
+
+const PLAYER_COLOR = Color.hex("#f43841");
+const PLAYER_SPEED = 1000;
+const PLAYER_RADIUS = 69;
+const PLAYER_MAX_HEALTH = 100;
+const PLAYER_SHOOT_COOLDOWN = 0.25 / 2.0;
+const PLAYER_TRAIL_RATE = 3.0;
+
+const ENEMY_SPEED = PLAYER_SPEED / 3;
+const ENEMY_RADIUS = PLAYER_RADIUS;
+const ENEMY_SPAWN_ANIMATION_SPEED = ENEMY_RADIUS * 8;
+const ENEMY_COLOR = Color.hex("#9e95c7");
+const ENEMY_SPAWN_COOLDOWN = 1.0;
+const ENEMY_SPAWN_GROWTH = 1.01;
+const ENEMY_SPAWN_DISTANCE = 1500.0;
+const ENEMY_DESPAWN_DISTANCE = ENEMY_SPAWN_DISTANCE * 2;
+const ENEMY_DAMAGE = PLAYER_MAX_HEALTH / 5;
+const ENEMY_KILL_HEAL = PLAYER_MAX_HEALTH / 10;
+const ENEMY_KILL_SCORE = 100;
+const ENEMY_TRAIL_RATE = 2.0;
+
+const BULLET_RADIUS = 42;
+const BULLET_SPEED = 2000;
+const BULLET_LIFETIME = 5.0;
+
+const PARTICLES_COUNT_RANGE = [0, 50];
+const PARTICLE_RADIUS_RANGE = [10.0, 20.0];
+const PARTICLE_MAG_RANGE = [0, BULLET_SPEED];
+const PARTICLE_MAX_LIFETIME = 1.0;
+const PARTICLE_LIFETIME_RANGE = [0, PARTICLE_MAX_LIFETIME];
+
+const TUTORIAL_POPUP_SPEED = 1.7;
+const MESSAGE_COLOR = Color.hex("#ffffff");
+
+const CIRCLE_BATCH_CAPACITY = 1024 * 10;
+const LETTER_SLOTS_CAPACITY = 1024;
+const LETTER_SLOT_COUNT = VEC2_COUNT;
+const LETTER_SLOT_CODE = 0;
+const LETTER_SLOT_COL = 1;
+const FONT_SHEET_WIDTH = 128;
+const FONT_SHEET_HEIGHT = 64;
+const FONT_SHEET_COLS = 18;
+const FONT_SHEET_ROWS = 7;
+const FONT_CHAR_WIDTH = Math.floor(FONT_SHEET_WIDTH / FONT_SHEET_COLS);
+const FONT_CHAR_HEIGHT = Math.floor(FONT_SHEET_HEIGHT / FONT_SHEET_ROWS);
+const FONT_MESSAGE_SCALE = 10.0;
+
+const BACKGROUND_CELL_RADIUS = 120;
+const BACKGROUND_LINE_COLOR = Color.hex("#ffffff").withAlpha(0.5);
+const BACKGROUND_CELL_WIDTH = 1.5 * BACKGROUND_CELL_RADIUS;
+const BACKGROUND_CELL_HEIGHT = Math.sqrt(3) * BACKGROUND_CELL_RADIUS;
+const BACKGROUND_CELL_POINTS = (() => {
+    let points = [];
+    for (let i = 0; i < 4; ++i) {
+        let angle = 2 * Math.PI * i / 6;
+        points.push(new V2(Math.cos(angle), Math.sin(angle)).scale(BACKGROUND_CELL_RADIUS));
+    }
+    return points;
+})();
