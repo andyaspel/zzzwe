@@ -1,4 +1,10 @@
-class RendererWebGL {
+"use atrict";
+
+import  * as csnt from "../CONSTANTS.js";
+import  V2  from "./PLAYER_CONTROLLER.js";
+import { BackgroundProgram ,CirclesProgram,BitmapFontProgram} from "./WEBGL_UTILS.js";
+
+export default class RendererWebGL {
     cameraPos = new V2(0, 0);
     cameraVel = new V2(0, 0);
     resolution = new V2(0, 0);
@@ -43,15 +49,15 @@ class RendererWebGL {
 
         // Mesh Position
         {
-            this.meshPositionBufferData = new Float32Array(TRIANGLE_PAIR * TRIANGLE_VERTICIES * VEC2_COUNT);
-            for (let triangle = 0; triangle < TRIANGLE_PAIR; ++triangle) {
-                for (let vertex = 0; vertex < TRIANGLE_VERTICIES; ++vertex) {
+            this.meshPositionBufferData = new Float32Array(csnt.TRIANGLE_PAIR * csnt.TRIANGLE_VERTICIES * csnt.VEC2_COUNT);
+            for (let triangle = 0; triangle < csnt.TRIANGLE_PAIR; ++triangle) {
+                for (let vertex = 0; vertex < csnt.TRIANGLE_VERTICIES; ++vertex) {
                     const quad = triangle + vertex;
                     const index =
-                          triangle * TRIANGLE_VERTICIES * VEC2_COUNT +
-                          vertex * VEC2_COUNT;
-                    this.meshPositionBufferData[index + VEC2_X] = (2 * (quad & 1) - 1);
-                    this.meshPositionBufferData[index + VEC2_Y] = (2 * ((quad >> 1) & 1) - 1);
+                          triangle * csnt.TRIANGLE_VERTICIES * csnt.VEC2_COUNT +
+                          vertex * csnt.VEC2_COUNT;
+                    this.meshPositionBufferData[index + csnt.VEC2_X] = (2 * (quad & 1) - 1);
+                    this.meshPositionBufferData[index + csnt.VEC2_Y] = (2 * ((quad >> 1) & 1) - 1);
                 }
             }
 
@@ -62,7 +68,7 @@ class RendererWebGL {
             const meshPositionAttrib = this.vertexAttribs['meshPosition'];
             gl.vertexAttribPointer(
                 meshPositionAttrib,
-                VEC2_COUNT,
+                csnt.VEC2_COUNT,
                 gl.FLOAT,
                 false,
                 0,
@@ -72,7 +78,7 @@ class RendererWebGL {
 
         // Circle Center
         {
-            this.circleCenterBufferData = new Float32Array(VEC2_COUNT * CIRCLE_BATCH_CAPACITY);
+            this.circleCenterBufferData = new Float32Array(csnt.VEC2_COUNT * csnt.CIRCLE_BATCH_CAPACITY);
             this.circleCenterBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.circleCenterBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, this.circleCenterBufferData, gl.DYNAMIC_DRAW);
@@ -80,7 +86,7 @@ class RendererWebGL {
             const circleCenterAttrib = this.vertexAttribs['circleCenter'];
             gl.vertexAttribPointer(
                 circleCenterAttrib,
-                VEC2_COUNT,
+                csnt.VEC2_COUNT,
                 gl.FLOAT,
                 false,
                 0,
@@ -91,7 +97,7 @@ class RendererWebGL {
 
         // Circle Radius
         {
-            this.circleRadiusBufferData = new Float32Array(CIRCLE_BATCH_CAPACITY);
+            this.circleRadiusBufferData = new Float32Array(csnt.CIRCLE_BATCH_CAPACITY);
             this.circleRadiusBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.circleRadiusBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, this.circleRadiusBufferData, gl.DYNAMIC_DRAW);
@@ -110,7 +116,7 @@ class RendererWebGL {
 
         // Circle Color
         {
-            this.circleColorBufferData = new Float32Array(RGBA_COUNT * CIRCLE_BATCH_CAPACITY);
+            this.circleColorBufferData = new Float32Array(csnt.RGBA_COUNT * csnt.CIRCLE_BATCH_CAPACITY);
             this.circleColorBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.circleColorBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, this.circleColorBufferData, gl.DYNAMIC_DRAW);
@@ -118,7 +124,7 @@ class RendererWebGL {
             const circleColorAttrib = this.vertexAttribs['circleColor'];
             gl.vertexAttribPointer(
                 circleColorAttrib,
-                RGBA_COUNT,
+                csnt.RGBA_COUNT,
                 gl.FLOAT,
                 false,
                 0,
@@ -130,7 +136,7 @@ class RendererWebGL {
 
         // Letter Slot
         {
-            this.letterSlotBufferData = new Float32Array(LETTER_SLOTS_CAPACITY * VEC2_COUNT);
+            this.letterSlotBufferData = new Float32Array(csnt.LETTER_SLOTS_CAPACITY * csnt.VEC2_COUNT);
 
             this.letterSlotBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.letterSlotBuffer);
@@ -139,7 +145,7 @@ class RendererWebGL {
             const letterSlotAttrib = this.vertexAttribs['letterSlot'];
             gl.vertexAttribPointer(
                 letterSlotAttrib,
-                LETTER_SLOT_COUNT,
+                csnt.LETTER_SLOT_COUNT,
                 gl.FLOAT,
                 false,
                 0,
@@ -164,8 +170,8 @@ class RendererWebGL {
         this.resolution.y = height;
 
         const scale = Math.min(
-            width / DEFAULT_RESOLUTION.w,
-            height / DEFAULT_RESOLUTION.h,
+            width / csnt.DEFAULT_RESOLUTION.w,
+            height / csnt.DEFAULT_RESOLUTION.h,
         );
 
         this.unitsPerPixel = 1 / scale;
@@ -215,23 +221,23 @@ class RendererWebGL {
             this.bitmapFontProgram.setViewport(this.resolution.x, this.resolution.y);
             this.bitmapFontProgram.setTimestamp(this.timestamp);
 
-            const scale = FONT_MESSAGE_SCALE * (1.0 / this.unitsPerPixel);
+            const scale = csnt.FONT_MESSAGE_SCALE * (1.0 / this.unitsPerPixel);
             this.bitmapFontProgram.setMessageScale(scale);
             for (let [text, color] of this.messages) {
                 this.bitmapFontProgram.setColor(color);
 
                 const lines = text.split('\n');
-                const message_height = lines.length * FONT_CHAR_HEIGHT * scale;
+                const message_height = lines.length * csnt.FONT_CHAR_HEIGHT * scale;
                 for (let row = 0; row < lines.length; ++row) {
                     const line = lines[row];
 
                     this.bitmapFontProgram.setMessagePosition(
-                        line.length * FONT_CHAR_WIDTH * scale * -0.5,
-                        message_height * 0.5 - (row + 1) * FONT_CHAR_HEIGHT * scale);
+                        line.length * csnt.FONT_CHAR_WIDTH * scale * -0.5,
+                        message_height * 0.5 - (row + 1) * csnt.FONT_CHAR_HEIGHT * scale);
 
                     for (let i = 0; i < line.length && i < this.letterSlotBufferData.length; ++i) {
-                        this.letterSlotBufferData[i * LETTER_SLOT_COUNT + LETTER_SLOT_CODE] = line.charCodeAt(i);
-                        this.letterSlotBufferData[i * LETTER_SLOT_COUNT + LETTER_SLOT_COL] = i;
+                        this.letterSlotBufferData[i * csnt.LETTER_SLOT_COUNT + csnt.LETTER_SLOT_CODE] = line.charCodeAt(i);
+                        this.letterSlotBufferData[i * csnt.LETTER_SLOT_COUNT + csnt.LETTER_SLOT_COL] = i;
                     }
                     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.letterSlotBuffer);
                     this.gl.bufferSubData(this.gl.ARRAY_BUFFER, 0, this.letterSlotBufferData);
@@ -254,16 +260,16 @@ class RendererWebGL {
     }
 
     fillCircle(center, radius, color) {
-        if (this.circlesCount < CIRCLE_BATCH_CAPACITY) {
-            this.circleCenterBufferData[this.circlesCount * VEC2_COUNT + VEC2_X] = center.x;
-            this.circleCenterBufferData[this.circlesCount * VEC2_COUNT + VEC2_Y] = center.y;
+        if (this.circlesCount < csnt.CIRCLE_BATCH_CAPACITY) {
+            this.circleCenterBufferData[this.circlesCount * csnt.VEC2_COUNT + csnt.VEC2_X] = center.x;
+            this.circleCenterBufferData[this.circlesCount * csnt.VEC2_COUNT + csnt.VEC2_Y] = center.y;
 
             this.circleRadiusBufferData[this.circlesCount] = radius;
 
-            this.circleColorBufferData[this.circlesCount * RGBA_COUNT + RGBA_R] = color.r;
-            this.circleColorBufferData[this.circlesCount * RGBA_COUNT + RGBA_G] = color.g;
-            this.circleColorBufferData[this.circlesCount * RGBA_COUNT + RGBA_B] = color.b;
-            this.circleColorBufferData[this.circlesCount * RGBA_COUNT + RGBA_A] = color.a;
+            this.circleColorBufferData[this.circlesCount * csnt.RGBA_COUNT + csnt.RGBA_R] = color.r;
+            this.circleColorBufferData[this.circlesCount * csnt.RGBA_COUNT + csnt.RGBA_G] = color.g;
+            this.circleColorBufferData[this.circlesCount * csnt.RGBA_COUNT + csnt.RGBA_B] = color.b;
+            this.circleColorBufferData[this.circlesCount * csnt.RGBA_COUNT + csnt.RGBA_A] = color.a;
 
             this.circlesCount += 1;
         }

@@ -1,5 +1,18 @@
-class BitmapFontProgram {
-    vertexShaderSource = `#version 100
+import {
+  DEFAULT_RESOLUTION,
+  TRIANGLE_PAIR,
+  TRIANGLE_VERTICIES,
+  FONT_CHAR_WIDTH,
+  FONT_CHAR_HEIGHT,
+  FONT_SHEET_WIDTH,
+  FONT_SHEET_HEIGHT,
+  FONT_SHEET_COLS,
+} from "../CONSTANTS.js";
+import { compileShaderSource,linkShaderProgram } from "../functions/utils.js";
+
+
+export class BitmapFontProgram {
+  vertexShaderSource = `#version 100
 
 precision mediump float;
 
@@ -32,7 +45,7 @@ void main() {
 }
 `;
 
-    fragmentShaderSource = `#version 100
+  fragmentShaderSource = `#version 100
 
 precision mediump float;
 
@@ -47,62 +60,97 @@ void main() {
 }
 `;
 
-    constructor(gl, ext, vertexAttribs) {
-        this.gl = gl;
-        this.ext = ext;
+  constructor(gl, ext, vertexAttribs) {
+    this.gl = gl;
+    this.ext = ext;
 
-        let vertexShader = compileShaderSource(gl, this.vertexShaderSource, gl.VERTEX_SHADER);
-        let fragmentShader = compileShaderSource(gl, this.fragmentShaderSource, gl.FRAGMENT_SHADER);
-        this.program = linkShaderProgram(gl, [vertexShader, fragmentShader], vertexAttribs);
-        gl.useProgram(this.program);
+    let vertexShader = compileShaderSource(
+      gl,
+      this.vertexShaderSource,
+      gl.VERTEX_SHADER
+    );
+    let fragmentShader = compileShaderSource(
+      gl,
+      this.fragmentShaderSource,
+      gl.FRAGMENT_SHADER
+    );
+    this.program = linkShaderProgram(
+      gl,
+      [vertexShader, fragmentShader],
+      vertexAttribs
+    );
+    gl.useProgram(this.program);
 
-        this.resolutionUniform = gl.getUniformLocation(this.program, 'resolution');
-        this.messageScaleUniform = gl.getUniformLocation(this.program, 'messageScale');
-        this.messageColorUniform = gl.getUniformLocation(this.program, 'messageColor');
-        gl.uniform4f(this.messageColorUniform, 1.0, 1.0, 1.0, 1.0);
-        this.timeUniform = gl.getUniformLocation(this.program, 'time');
-        this.letterCountUniform = gl.getUniformLocation(this.program, 'letterCount');
-        this.messagePositionUniform = gl.getUniformLocation(this.program, 'messagePosition');
-    }
+    this.resolutionUniform = gl.getUniformLocation(this.program, "resolution");
+    this.messageScaleUniform = gl.getUniformLocation(
+      this.program,
+      "messageScale"
+    );
+    this.messageColorUniform = gl.getUniformLocation(
+      this.program,
+      "messageColor"
+    );
+    gl.uniform4f(this.messageColorUniform, 1.0, 1.0, 1.0, 1.0);
+    this.timeUniform = gl.getUniformLocation(this.program, "time");
+    this.letterCountUniform = gl.getUniformLocation(
+      this.program,
+      "letterCount"
+    );
+    this.messagePositionUniform = gl.getUniformLocation(
+      this.program,
+      "messagePosition"
+    );
+  }
 
-    use() {
-        this.gl.useProgram(this.program);
-    }
+  use() {
+    this.gl.useProgram(this.program);
+  }
 
-    setViewport(width, height) {
-        const scale = Math.min(
-            width / DEFAULT_RESOLUTION.w,
-            height / DEFAULT_RESOLUTION.h,
-        );
+  setViewport(width, height) {
+    const scale = Math.min(
+      width / DEFAULT_RESOLUTION.w,
+      height / DEFAULT_RESOLUTION.h
+    );
 
-        this.unitsPerPixel = 1 / scale;
-        this.gl.uniform2f(this.resolutionUniform, width, height);
-    }
+    this.unitsPerPixel = 1 / scale;
+    this.gl.uniform2f(this.resolutionUniform, width, height);
+  }
 
-    setTimestamp(timestamp) {
-        this.gl.uniform1f(this.timeUniform, timestamp);
-    }
+  setTimestamp(timestamp) {
+    this.gl.uniform1f(this.timeUniform, timestamp);
+  }
 
-    setColor(color) {
-        this.gl.uniform4f(this.messageColorUniform, color.r, color.g, color.b, color.a);
-    }
+  setColor(color) {
+    this.gl.uniform4f(
+      this.messageColorUniform,
+      color.r,
+      color.g,
+      color.b,
+      color.a
+    );
+  }
 
-    setMessagePosition(x, y) {
-        this.gl.uniform2f(this.messagePositionUniform, x, y);
-    }
+  setMessagePosition(x, y) {
+    this.gl.uniform2f(this.messagePositionUniform, x, y);
+  }
 
-    setMessageScale(scale) {
-        this.gl.uniform1f(this.messageScaleUniform, scale);
-    }
+  setMessageScale(scale) {
+    this.gl.uniform1f(this.messageScaleUniform, scale);
+  }
 
-    draw(letterCount) {
-        this.gl.uniform1f(this.letterCountUniform, letterCount);
-        this.ext.drawArraysInstancedANGLE(this.gl.TRIANGLES, 0, TRIANGLE_PAIR * TRIANGLE_VERTICIES, letterCount);
-    }
+  draw(letterCount) {
+    this.gl.uniform1f(this.letterCountUniform, letterCount);
+    this.ext.drawArraysInstancedANGLE(
+      this.gl.TRIANGLES,
+      0,
+      TRIANGLE_PAIR * TRIANGLE_VERTICIES,
+      letterCount
+    );
+  }
 }
 
-class BackgroundProgram {
-    vertexShaderSource = `#version 100
+export class BackgroundProgram {
+  vertexShaderSource = `#version 100
 precision mediump float;
 
 attribute vec2 meshPosition;
@@ -113,9 +161,9 @@ void main() {
     gl_Position = vec4(meshPosition, 0.0, 1.0);
     position = vec2(meshPosition.x, -meshPosition.y);
 }
-`
+`;
 
-    fragmentShaderSource = `#version 100
+  fragmentShaderSource = `#version 100
 precision mediump float;
 
 uniform vec2 resolution;
@@ -140,50 +188,69 @@ void main() {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
 }
-`
+`;
 
-    constructor(gl, vertexAttribs) {
-        this.gl = gl;
+  constructor(gl, vertexAttribs) {
+    this.gl = gl;
 
-        let vertexShader = compileShaderSource(gl, this.vertexShaderSource, gl.VERTEX_SHADER);
-        let fragmentShader = compileShaderSource(gl, this.fragmentShaderSource, gl.FRAGMENT_SHADER);
-        this.program = linkShaderProgram(gl, [vertexShader, fragmentShader], vertexAttribs);
-        gl.useProgram(this.program);
+    let vertexShader = compileShaderSource(
+      gl,
+      this.vertexShaderSource,
+      gl.VERTEX_SHADER
+    );
+    let fragmentShader = compileShaderSource(
+      gl,
+      this.fragmentShaderSource,
+      gl.FRAGMENT_SHADER
+    );
+    this.program = linkShaderProgram(
+      gl,
+      [vertexShader, fragmentShader],
+      vertexAttribs
+    );
+    gl.useProgram(this.program);
 
-        this.resolutionUniform = gl.getUniformLocation(this.program, 'resolution');
-        this.cameraPositionUniform = gl.getUniformLocation(this.program, 'cameraPosition');
-        this.timeUniform = gl.getUniformLocation(this.program, 'time');
-    }
+    this.resolutionUniform = gl.getUniformLocation(this.program, "resolution");
+    this.cameraPositionUniform = gl.getUniformLocation(
+      this.program,
+      "cameraPosition"
+    );
+    this.timeUniform = gl.getUniformLocation(this.program, "time");
+  }
 
-    use() {
-        this.gl.useProgram(this.program);
-    }
+  use() {
+    this.gl.useProgram(this.program);
+  }
 
-    setViewport(width, height) {
-        const scale = Math.min(
-            width / DEFAULT_RESOLUTION.w,
-            height / DEFAULT_RESOLUTION.h,
-        );
+  setViewport(width, height) {
+    const scale = Math.min(
+      width / DEFAULT_RESOLUTION.w,
+      height / DEFAULT_RESOLUTION.h
+    );
 
-        this.unitsPerPixel = 1 / scale;
-        this.gl.uniform2f(this.resolutionUniform, width, height);
-    }
+    this.unitsPerPixel = 1 / scale;
+    this.gl.uniform2f(this.resolutionUniform, width, height);
+  }
 
-    setCameraPosition(pos) {
-        this.gl.uniform2f(this.cameraPositionUniform, pos.x, pos.y);
-    }
+  setCameraPosition(pos) {
+    this.gl.uniform2f(this.cameraPositionUniform, pos.x, pos.y);
+  }
 
-    setTimestamp(timestamp) {
-        this.gl.uniform1f(this.timeUniform, timestamp);
-    }
+  setTimestamp(timestamp) {
+    this.gl.uniform1f(this.timeUniform, timestamp);
+  }
 
-    draw() {
-        this.gl.drawArrays(this.gl.TRIANGLES, 0, TRIANGLE_PAIR * TRIANGLE_VERTICIES);
-    }
+  draw() {
+    this.gl.drawArrays(
+      this.gl.TRIANGLES,
+      0,
+      TRIANGLE_PAIR * TRIANGLE_VERTICIES
+    );
+  }
 }
 
-class CirclesProgram {
-    vertexShaderSource = `#version 100
+export class CirclesProgram {
+  vertexShaderSource = `#version 100
 precision mediump float;
 
 uniform vec2 resolution;
@@ -211,7 +278,7 @@ void main() {
 }
 `;
 
-    fragmentShaderSource =`#version 100
+  fragmentShaderSource = `#version 100
 precision mediump float;
 
 uniform float grayness;
@@ -234,39 +301,58 @@ void main() {
 }
 `;
 
-    constructor(gl, ext, vertexAttribs) {
-        this.gl = gl;
-        this.ext = ext;
+  constructor(gl, ext, vertexAttribs) {
+    this.gl = gl;
+    this.ext = ext;
 
-        let vertexShader = compileShaderSource(gl, this.vertexShaderSource, gl.VERTEX_SHADER);
-        let fragmentShader = compileShaderSource(gl, this.fragmentShaderSource, gl.FRAGMENT_SHADER);
-        this.program = linkShaderProgram(gl, [vertexShader, fragmentShader], vertexAttribs);
-        gl.useProgram(this.program);
+    let vertexShader = compileShaderSource(
+      gl,
+      this.vertexShaderSource,
+      gl.VERTEX_SHADER
+    );
+    let fragmentShader = compileShaderSource(
+      gl,
+      this.fragmentShaderSource,
+      gl.FRAGMENT_SHADER
+    );
+    this.program = linkShaderProgram(
+      gl,
+      [vertexShader, fragmentShader],
+      vertexAttribs
+    );
+    gl.useProgram(this.program);
 
-        this.resolutionUniform = gl.getUniformLocation(this.program, 'resolution');
-        this.cameraPositionUniform = gl.getUniformLocation(this.program, 'cameraPosition');
-        this.graynessUniform = gl.getUniformLocation(this.program, 'grayness');
+    this.resolutionUniform = gl.getUniformLocation(this.program, "resolution");
+    this.cameraPositionUniform = gl.getUniformLocation(
+      this.program,
+      "cameraPosition"
+    );
+    this.graynessUniform = gl.getUniformLocation(this.program, "grayness");
+  }
 
-    }
+  use() {
+    this.gl.useProgram(this.program);
+  }
 
-    use() {
-        this.gl.useProgram(this.program);
-    }
+  // TODO: Rename Renderer(WebGL|2D).setViewport() to setResolution()
+  setViewport(width, height) {
+    this.gl.uniform2f(this.resolutionUniform, width, height);
+  }
 
-    // TODO: Rename Renderer(WebGL|2D).setViewport() to setResolution()
-    setViewport(width, height) {
-        this.gl.uniform2f(this.resolutionUniform, width, height);
-    }
+  setCameraPosition(pos) {
+    this.gl.uniform2f(this.cameraPositionUniform, pos.x, pos.y);
+  }
 
-    setCameraPosition(pos) {
-        this.gl.uniform2f(this.cameraPositionUniform, pos.x, pos.y);
-    }
+  setGrayness(grayness) {
+    this.gl.uniform1f(this.graynessUniform, grayness);
+  }
 
-    setGrayness(grayness) {
-        this.gl.uniform1f(this.graynessUniform, grayness);
-    }
-
-    draw(circlesCount) {
-        this.ext.drawArraysInstancedANGLE(this.gl.TRIANGLES, 0, TRIANGLE_PAIR * TRIANGLE_VERTICIES, circlesCount);
-    }
+  draw(circlesCount) {
+    this.ext.drawArraysInstancedANGLE(
+      this.gl.TRIANGLES,
+      0,
+      TRIANGLE_PAIR * TRIANGLE_VERTICIES,
+      circlesCount
+    );
+  }
 }

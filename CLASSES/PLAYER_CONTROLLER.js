@@ -1,4 +1,6 @@
-class V2 {
+"use strict";
+
+export default class V2 {
     constructor(x, y) {
         this.x = x;
         this.y = y;

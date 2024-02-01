@@ -1,4 +1,6 @@
-class Particle {
+ "use strict";
+import { PARTICLE_MAX_LIFETIME } from "../CONSTANTS.js";
+ export default class Particle {
     constructor(pos, vel, lifetime, radius, color) {
         this.pos = pos;
         this.vel = vel;

@@ -1,4 +1,7 @@
-class Color {
+"use strict";
+
+import { lerp } from "../functions/utils.js";
+export default class Color {
     constructor(r, g, b, a) {
         this.r = r;
         this.g = g;
