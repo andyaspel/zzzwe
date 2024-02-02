@@ -13,7 +13,7 @@ import {
 import { compileShaderSource, linkShaderProgram } from "../functions/utils.js";
 
 export class BitmapFontProgram {
-  vertexShaderSource = glsl`#version 100
+  vertexShaderSource = `#version 100
 
 precision mediump float;
 
@@ -47,7 +47,7 @@ void main() {
 }
 `;
 
-  fragmentShaderSource = glsl`#version 100
+  fragmentShaderSource = `#version 100
 
 precision mediump float;
 
@@ -152,7 +152,7 @@ void main() {
 }
 
 export class BackgroundProgram {
-  vertexShaderSource = glsl`#version 100
+  vertexShaderSource = `#version 100
 precision mediump float;
 
 attribute vec2 meshPosition;
@@ -165,7 +165,7 @@ void main() {
 }
 `;
 
-  fragmentShaderSource = glsl`#version 100
+  fragmentShaderSource = `#version 100
 precision mediump float;
 
 uniform vec2 resolution;
@@ -252,7 +252,7 @@ void main() {
 }
 
 export class CirclesProgram {
-  vertexShaderSource = glsl`#version 100
+  vertexShaderSource = `#version 100
 precision mediump float;
 
 uniform vec2 resolution;
@@ -280,7 +280,7 @@ void main() {
 }
 `;
 
-  fragmentShaderSource = glsl`#version 100
+  fragmentShaderSource = `#version 100
 precision mediump float;
 
 uniform float grayness;

@@ -10,8 +10,10 @@
   /* overflow: hidden; */
 }
 
-html {
+html,
+body {
   overflow: hidden;
+  background: #181818;
 }
 
 #bitmap-font {
