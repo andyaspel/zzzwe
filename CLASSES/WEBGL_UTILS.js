@@ -1,3 +1,5 @@
+"use strict";
+
 import {
   DEFAULT_RESOLUTION,
   TRIANGLE_PAIR,
@@ -8,11 +10,10 @@ import {
   FONT_SHEET_HEIGHT,
   FONT_SHEET_COLS,
 } from "../CONSTANTS.js";
-import { compileShaderSource,linkShaderProgram } from "../functions/utils.js";
-
+import { compileShaderSource, linkShaderProgram } from "../functions/utils.js";
 
 export class BitmapFontProgram {
-  vertexShaderSource = `#version 100
+  vertexShaderSource = glsl`#version 100
 
 precision mediump float;
 
@@ -41,11 +42,12 @@ void main() {
     float charIndex = letterCode - 32.0;
     float charU = (floor(mod(charIndex, float(${FONT_SHEET_COLS}))) + meshPositionUV.x) * float(${FONT_CHAR_WIDTH}) / float(${FONT_SHEET_WIDTH});
     float charV = (floor(charIndex / float(${FONT_SHEET_COLS})) + (1.0 - meshPositionUV.y)) * float(${FONT_CHAR_HEIGHT}) / float(${FONT_SHEET_HEIGHT});
+    
     uv = vec2(charU, charV);
 }
 `;
 
-  fragmentShaderSource = `#version 100
+  fragmentShaderSource = glsl`#version 100
 
 precision mediump float;
 
@@ -131,7 +133,7 @@ void main() {
   }
 
   setMessagePosition(x, y) {
-    this.gl.uniform2f(this.messagePositionUniform, x, y);
+    this.gl.uniform2f(this.messagePositionUniform, x, y + 75);
   }
 
   setMessageScale(scale) {
@@ -150,7 +152,7 @@ void main() {
 }
 
 export class BackgroundProgram {
-  vertexShaderSource = `#version 100
+  vertexShaderSource = glsl`#version 100
 precision mediump float;
 
 attribute vec2 meshPosition;
@@ -163,7 +165,7 @@ void main() {
 }
 `;
 
-  fragmentShaderSource = `#version 100
+  fragmentShaderSource = glsl`#version 100
 precision mediump float;
 
 uniform vec2 resolution;
@@ -250,7 +252,7 @@ void main() {
 }
 
 export class CirclesProgram {
-  vertexShaderSource = `#version 100
+  vertexShaderSource = glsl`#version 100
 precision mediump float;
 
 uniform vec2 resolution;
@@ -278,7 +280,7 @@ void main() {
 }
 `;
 
-  fragmentShaderSource = `#version 100
+  fragmentShaderSource = glsl`#version 100
 precision mediump float;
 
 uniform float grayness;

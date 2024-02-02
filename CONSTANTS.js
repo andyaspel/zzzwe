@@ -1,4 +1,5 @@
-// "use strict";
+"use strict";
+
 import V2 from "./CLASSES/PLAYER_CONTROLLER.js";
 import COLOUR from "./CLASSES/COLOUR.js";
 import { randomBetween } from "./functions/utils.js";
@@ -62,30 +63,30 @@ export const TUTORIAL_STATE = Object.freeze({
 });
 
 export const TUTORIAL_MESSAGES = Object.freeze([
-  "WASD TO MOVE",
-  "LEFT CLICK TO SHOOT",
+  " ( W, A, S, D ) KEYS TO MOVE ",
+  " LEFT CLICK TO SHOOT ",
   "",
 ]);
 
 export const LOCAL_STORAGE_TUTORIAL = "tutorial";
-export const MESSAGE_COLOR = COLOUR.hex("#ffffff");
+export const MESSAGE_COLOR = COLOUR.hex("#4fd909");
 
 export const CIRCLE_BATCH_CAPACITY = 1024 * 10;
 export const LETTER_SLOTS_CAPACITY = 1024;
 export const LETTER_SLOT_COUNT = VEC2_COUNT;
 export const LETTER_SLOT_CODE = 0;
 export const LETTER_SLOT_COL = 1;
-export const FONT_SIZE = 69;
-export const LINE_PADDING = 69;
+export const FONT_SIZE = 48;
+export const LINE_PADDING = 32;
 export const FONT_SHEET_WIDTH = 295;
-export const FONT_SHEET_HEIGHT = 9;
+export const FONT_SHEET_HEIGHT = 12;
 export const FONT_SHEET_COLS = 59;
 export const FONT_SHEET_ROWS = 1;
 export const FONT_CHAR_WIDTH = Math.floor(FONT_SHEET_WIDTH / FONT_SHEET_COLS);
 export const FONT_CHAR_HEIGHT = Math.floor(FONT_SHEET_HEIGHT / FONT_SHEET_ROWS);
-export const FONT_MESSAGE_SCALE = 15.0;
+export const FONT_MESSAGE_SCALE = 8.0;
 
-export const BACKGROUND_CELL_RADIUS = 120;
+export const BACKGROUND_CELL_RADIUS = 220;
 export const BACKGROUND_LINE_COLOR = COLOUR.hex("#ffffff").withAlpha(0.5);
 export const BACKGROUND_CELL_WIDTH = 1.5 * BACKGROUND_CELL_RADIUS;
 export const BACKGROUND_CELL_HEIGHT = Math.sqrt(3) * BACKGROUND_CELL_RADIUS;

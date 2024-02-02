@@ -1,4 +1,5 @@
 "use strict";
+
 import {
   ENEMY_SPAWN_ANIMATION_SPEED,
   ENEMY_COLOR,
@@ -6,7 +7,7 @@ import {
   ENEMY_SPEED,
   ENEMY_TRAIL_RATE,
 } from "../CONSTANTS.js";
-import Trail from "./TRAIL.js"
+import Trail from "./TRAIL.js";
 
 export default class Enemy {
   trail = new Trail(ENEMY_RADIUS, ENEMY_COLOR, ENEMY_TRAIL_RATE);

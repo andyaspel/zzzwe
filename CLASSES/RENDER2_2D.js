@@ -1,7 +1,7 @@
 "use strict";
 
 import * as csnt from "../CONSTANTS.js";
-import  V2 from "./PLAYER_CONTROLLER.js";
+import V2 from "./PLAYER_CONTROLLER.js";
 
 export default class Renderer2D {
   cameraPos = new V2(0, 0);

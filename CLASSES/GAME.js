@@ -2,13 +2,10 @@
 
 import * as csnt from "../CONSTANTS.js";
 import Player from "./PLAYER.js";
-import Enemy from "./ENEMY.js"
+import Enemy from "./ENEMY.js";
 import { Tutorial } from "./TUTORIAL.js";
 import V2 from "./PLAYER_CONTROLLER.js";
-import Renderer2D from "./RENDER2_2D.js";
-import RendererWebGL from "./RENDER_WEBGL.js";
 import { particleBurst } from "../functions/utils.js";
-// import { renderer } from "../functions/utils.js";
 
 export default class Game {
   restart() {
@@ -160,13 +157,16 @@ export default class Game {
     this.renderEntities(this.enemies);
 
     if (this.paused) {
-      this.renderer.fillMessage("PAUSED\n (SPACE-BAR TO RESUME GAME)", csnt.MESSAGE_COLOR);
+      this.renderer.fillMessage(
+        " PAUSED\n\n ( SPACE-BAR TO RESUME GAME ) ",
+        csnt.MESSAGE_COLOR
+      );
     } else if (this.player.health <= 0.0) {
       const accuracy = Math.ceil(
         (100 * this.player.accuracy) / Math.max(this.player.shootCount, 1.0)
       );
       this.renderer.fillMessage(
-        `YOUR SCORE: ${this.score}\nACCURACY: ${accuracy}%\n\n(SPACE-BAR TO PLAY NEW GAME)`,
+        ` YOUR SCORE: ${this.score} \n\n ACCURACY: ${accuracy}% \n\n ( SPACE-BAR TO PLAY NEW GAME ) `,
         csnt.MESSAGE_COLOR
       );
     } else {

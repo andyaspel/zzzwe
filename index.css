@@ -1,18 +1,19 @@
 @font-face {
-    font-family: 'LexendMega';
-    src: url('LexendMega-Regular.ttf');
+  font-family: "LexendMega";
+  src: url("LexendMega-Regular.ttf");
 }
-*,*::before,*::after{
-    box-sizing: border-box;
-    margin: 0;
-    /* overflow: hidden; */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  /* overflow: hidden; */
 }
 
 html {
-    overflow: hidden;
+  overflow: hidden;
 }
 
-
 #bitmap-font {
-    display: none;
+  display: none;
 }

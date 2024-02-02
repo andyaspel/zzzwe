@@ -1,7 +1,8 @@
 "use strict";
+
 import * as csnt from "../CONSTANTS.js";
-import  Trail  from "./TRAIL.js";
-import Bullet from "./BULLIT.js"
+import Trail from "./TRAIL.js";
+import Bullet from "./BULLIT.js";
 
 export default class Player {
   health = csnt.PLAYER_MAX_HEALTH;

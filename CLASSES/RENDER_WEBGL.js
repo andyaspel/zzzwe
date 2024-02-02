@@ -13,7 +13,6 @@ export default class RendererWebGL {
   cameraVel = new V2(0, 0);
   resolution = new V2(0, 0);
   unitsPerPixel = 1.0;
-
   vertexAttribs = {
     meshPosition: 0,
     circleCenter: 1,
