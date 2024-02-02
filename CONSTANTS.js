@@ -62,8 +62,8 @@ export const TUTORIAL_STATE = Object.freeze({
 });
 
 export const TUTORIAL_MESSAGES = Object.freeze([
-  "WASD to move",
-  "Left Mouse Click to shoot",
+  "WASD TO MOVE",
+  "LEFT CLICK TO SHOOT",
   "",
 ]);
 
@@ -77,13 +77,13 @@ export const LETTER_SLOT_CODE = 0;
 export const LETTER_SLOT_COL = 1;
 export const FONT_SIZE = 69;
 export const LINE_PADDING = 69;
-export const FONT_SHEET_WIDTH = 128;
-export const FONT_SHEET_HEIGHT = 64;
-export const FONT_SHEET_COLS = 18;
-export const FONT_SHEET_ROWS = 7;
+export const FONT_SHEET_WIDTH = 295;
+export const FONT_SHEET_HEIGHT = 9;
+export const FONT_SHEET_COLS = 59;
+export const FONT_SHEET_ROWS = 1;
 export const FONT_CHAR_WIDTH = Math.floor(FONT_SHEET_WIDTH / FONT_SHEET_COLS);
 export const FONT_CHAR_HEIGHT = Math.floor(FONT_SHEET_HEIGHT / FONT_SHEET_ROWS);
-export const FONT_MESSAGE_SCALE = 10.0;
+export const FONT_MESSAGE_SCALE = 15.0;
 
 export const BACKGROUND_CELL_RADIUS = 120;
 export const BACKGROUND_LINE_COLOR = COLOUR.hex("#ffffff").withAlpha(0.5);

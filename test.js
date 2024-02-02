@@ -16,12 +16,12 @@ let game = null;
       if (!legacy) {
           const gl = canvas.getContext("webgl");
           if (!gl) {
-              throw new Error(`Unable to initilize WebGL. Your browser probably does not support that.`);
+              throw new Error(`Unable to initilize WebGL. Your browser needs to be updated.`);
           }
 
           const ext = gl.getExtension('ANGLE_instanced_arrays');
           if (!ext) {
-              throw new Error(`Unable to initialize Instanced Arrays extension for WebGL. Your browser probably does not support that.`);
+              throw new Error(`Unable to initialize Instanced Arrays extension for WebGL. Your browser needs to be updated.`);
           }
 
           return new RendererWebGL(gl, ext);

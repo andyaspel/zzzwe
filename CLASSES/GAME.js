@@ -160,13 +160,13 @@ export default class Game {
     this.renderEntities(this.enemies);
 
     if (this.paused) {
-      this.renderer.fillMessage("PAUSED (SPACE to resume)", csnt.MESSAGE_COLOR);
+      this.renderer.fillMessage("PAUSED\n (SPACE-BAR TO RESUME GAME)", csnt.MESSAGE_COLOR);
     } else if (this.player.health <= 0.0) {
       const accuracy = Math.ceil(
         (100 * this.player.accuracy) / Math.max(this.player.shootCount, 1.0)
       );
       this.renderer.fillMessage(
-        `YOUR SCORE: ${this.score}\nACCURACY: ${accuracy}%\n(SPACE to restart)`,
+        `YOUR SCORE: ${this.score}\nACCURACY: ${accuracy}%\n\n(SPACE-BAR TO PLAY NEW GAME)`,
         csnt.MESSAGE_COLOR
       );
     } else {
