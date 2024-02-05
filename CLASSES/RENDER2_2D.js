@@ -37,7 +37,7 @@ export default class Renderer2D {
     const width = this.context2d.canvas.width;
     const height = this.context2d.canvas.height;
     return point
-      .sub(new csnt.V2(width / 2, height / 2))
+      .sub(new V2(width / 2, height / 2))
       .scale(this.unitsPerPixel)
       .add(this.cameraPos);
   }
@@ -45,7 +45,7 @@ export default class Renderer2D {
   worldToCamera(point) {
     const width = this.width();
     const height = this.height();
-    return point.sub(this.cameraPos).add(new csnt.V2(width / 2, height / 2));
+    return point.sub(this.cameraPos).add(new V2(width / 2, height / 2));
   }
 
   clear() {

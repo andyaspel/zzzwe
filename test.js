@@ -7,7 +7,7 @@ import Game from "./CLASSES/GAME.js";
   const canvas = document.getElementById("game-canvas");
   // function checks for browser support
   const renderer = (() => {
-    if (!legacy) {
+    if (legacy) {
       const gl = canvas.getContext("webgl");
       if (!gl) {
         throw new Error(

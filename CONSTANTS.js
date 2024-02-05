@@ -93,7 +93,7 @@ export const BACKGROUND_CELL_HEIGHT = Math.sqrt(3) * BACKGROUND_CELL_RADIUS;
 export const BACKGROUND_CELL_POINTS = (() => {
   let points = [];
   for (let i = 0; i < 4; ++i) {
-    let angle = (2 * Math.PI * i) / 6;
+    let angle = (2 * Math.PI * i) / 2;
     points.push(
       new V2(Math.cos(angle), Math.sin(angle)).scale(BACKGROUND_CELL_RADIUS)
     );

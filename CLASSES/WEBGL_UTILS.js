@@ -42,7 +42,6 @@ void main() {
     float charIndex = letterCode - 32.0;
     float charU = (floor(mod(charIndex, float(${FONT_SHEET_COLS}))) + meshPositionUV.x) * float(${FONT_CHAR_WIDTH}) / float(${FONT_SHEET_WIDTH});
     float charV = (floor(charIndex / float(${FONT_SHEET_COLS})) + (1.0 - meshPositionUV.y)) * float(${FONT_CHAR_HEIGHT}) / float(${FONT_SHEET_HEIGHT});
-    
     uv = vec2(charU, charV);
 }
 `;
